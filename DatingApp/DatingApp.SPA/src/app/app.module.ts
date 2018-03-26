@@ -2,7 +2,7 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -20,6 +20,8 @@ import { UserService } from './_services/user.service';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { AuthModule } from './auth/auth.module';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
+import { MemberListResolver } from './_resolvers/member-list.resolver';
 
 
 
@@ -41,13 +43,16 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
         FormsModule,
         BsDropdownModule.forRoot(),
         RouterModule.forRoot(appRoutes),
-        AuthModule
+        AuthModule,
+        TabsModule.forRoot()
     ],
     providers: [
         AuthService,
         AlertifyService,
         AuthGuard,
-        UserService
+        UserService,
+        MemberDetailResolver,
+        MemberListResolver
     ],
     bootstrap: [AppComponent]
 })
