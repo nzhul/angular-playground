@@ -72,6 +72,7 @@ namespace DatingApp.API.Controllers
                 return NoContent();
             }
 
+            //TODO: this will throw an error when we try to update without changing anything.
             throw new Exception($"Updating user {id} failed on save");
 
         }

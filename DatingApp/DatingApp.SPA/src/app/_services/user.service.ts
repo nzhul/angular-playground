@@ -18,15 +18,19 @@ export class UserService {
     getUsers(): Observable<User[]> {
         // use this when not using authHttp -> return this.authHttp.get(this.baseUrl + 'users', this.jwt())
         return this.authHttp.get(this.baseUrl + 'users')
-        .map(response => <User[]>response.json())
-        .catch(this.handleError);
+            .map(response => <User[]>response.json())
+            .catch(this.handleError);
     }
 
     getUser(id): Observable<User> {
         return this.authHttp
-        .get(this.baseUrl + 'users/' + id)
-        .map(response => <User>response.json())
-        .catch(this.handleError);
+            .get(this.baseUrl + 'users/' + id)
+            .map(response => <User>response.json())
+            .catch(this.handleError);
+    }
+
+    updateUser(id: number, user: User) {
+        return this.authHttp.put(this.baseUrl + 'users/' + id, user).catch(this.handleError);
     }
 
     // this is no longer used but i will leave it for reference
