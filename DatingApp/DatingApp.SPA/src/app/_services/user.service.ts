@@ -37,6 +37,10 @@ export class UserService {
         return this.authHttp.post(this.baseUrl + 'users/' + userId + '/photos/' + id + '/setMain', {}).catch(this.handleError);
     }
 
+    deletePhoto(userId: number, id: number) {
+        return this.authHttp.delete(this.baseUrl + 'users/' + userId + '/photos/' + id).catch(this.handleError);
+    }
+
     // this is no longer used but i will leave it for reference
     // we are now using AuthModule to send our json web token with every request.
     private jwt() {
