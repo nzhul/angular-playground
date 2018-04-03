@@ -27,9 +27,9 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody]UserForRegistrationDto userForRegistrationDto)
+        public async Task<IActionResult> Register([FromBody] UserForRegistrationDto userForRegistrationDto)
         {
-            if (!string.IsNullOrEmpty(userForRegistrationDto.Username))
+            if (!string.IsNullOrEmpty(userForRegistrationDto.Username))if (!string.IsNullOrEmpty(userForRegistrationDto.Username))
             {
                 userForRegistrationDto.Username = userForRegistrationDto.Username.ToLower();
             }
@@ -42,14 +42,13 @@ namespace DatingApp.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userToCreate = new User
-            {
-                Username = userForRegistrationDto.Username
-            };
+            var userToCreate = _mapper.Map<User>(userForRegistrationDto);
 
-            var createUser = await _repository.Register(userToCreate, userForRegistrationDto.Password);
+            var createdUser = await _repository.Register(userToCreate, userForRegistrationDto.Password);
 
-            return StatusCode(201);
+            var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser);
+
+            return CreatedAtRoute("GetUser", new { controller = "Users", id = createdUser.Id }, userToReturn);
         }
 
         [HttpPost("login")]
