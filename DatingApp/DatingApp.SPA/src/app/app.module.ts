@@ -2,7 +2,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule, ButtonsModule } from 'ngx-bootstrap';
 import { NgxGalleryModule } from 'ngx-gallery';
 
 import { AppComponent } from './app.component';
@@ -59,7 +59,8 @@ import { TimeAgoPipe } from 'time-ago-pipe';
         FileUploadModule,
         ReactiveFormsModule,
         BsDatepickerModule.forRoot(),
-        PaginationModule.forRoot()
+        PaginationModule.forRoot(),
+        ButtonsModule.forRoot()
     ],
     providers: [
         AuthService,
