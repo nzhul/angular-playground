@@ -16,7 +16,7 @@ export class UserService {
 
     constructor(private authHttp: AuthHttp) { }
 
-    getUsers(page?: number, itemsPerPage?: number, userParams?: any) {
+    getUsers(page?: number, itemsPerPage?: number, userParams?: any, likesParam?: string) {
         // use this when not using authHttp -> return this.authHttp.get(this.baseUrl + 'users', this.jwt())
 
         const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
@@ -32,6 +32,14 @@ export class UserService {
                 '&maxAge=' + userParams.maxAge +
                 '&gender=' + userParams.gender +
                 '&orderBy=' + userParams.orderBy;
+        }
+
+        if (likesParam === 'Likers') {
+            queryString += 'Likers=true&';
+        }
+
+        if (likesParam === 'Likees') {
+            queryString += 'Likees=true&';
         }
 
         return this.authHttp.get(this.baseUrl + 'users' + queryString)
@@ -66,6 +74,10 @@ export class UserService {
         return this.authHttp.delete(this.baseUrl + 'users/' + userId + '/photos/' + id).catch(this.handleError);
     }
 
+    sendLike(id: number, recipientId: number) {
+        return this.authHttp.post(this.baseUrl + 'users/' + id + '/like/' + recipientId, {}).catch(this.handleError);
+    }
+
     // this is no longer used but i will leave it for reference
     // we are now using AuthModule to send our json web token with every request.
     private jwt() {
@@ -79,6 +91,9 @@ export class UserService {
     }
 
     private handleError(error: any) {
+        if (error.status === 400) {
+            return Observable.throw(error._body);
+        }
         const applicationError = error.headers.get('Application-Error');
         if (applicationError) {
             return Observable.throw(applicationError);

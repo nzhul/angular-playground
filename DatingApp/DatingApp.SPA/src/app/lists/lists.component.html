@@ -1,3 +1,9 @@
-<p>
-  lists works!
-</p>
+<div class="container">
+    <div class="row">
+        <div class="btn-group">
+            <button class="btn btn-primary" [(ngModel)]="likesParam" btnRadio="Likers" (click)="loadUsers()">Members who like me</button>
+            <button class="btn btn-primary" [(ngModel)]="likesParam" btnRadio="Likees" (click)="loadUsers()">Members who I like</button>
+        </div>
+    </div>
+    <h2>{{likesParam === 'Likers' ? 'Members who like me' : 'Members who I\'ve liked'}} : {{pagination.totalItems}}</h2>
+</div>
