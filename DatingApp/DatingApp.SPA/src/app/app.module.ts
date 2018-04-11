@@ -30,6 +30,7 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
 import { FileUploadModule } from 'ng2-file-upload';
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { ListsResolver } from './_resolvers/lists.resolver';
+import { MessagesResolver } from './_resolvers/message.resolver';
 
 
 
@@ -72,7 +73,8 @@ import { ListsResolver } from './_resolvers/lists.resolver';
         MemberListResolver,
         MemberEditResolver,
         PreventUnsavedChanges,
-        ListsResolver
+        ListsResolver,
+        MessagesResolver
     ],
     bootstrap: [AppComponent]
 })

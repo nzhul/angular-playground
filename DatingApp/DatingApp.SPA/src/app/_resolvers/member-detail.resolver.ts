@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 
+// Note: when adding new resolver you must register it in app.modules as provider and add it in routes.ts
 @Injectable()
 export class MemberDetailResolver implements Resolve<User> {
 

@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import { AuthService } from '../_services/auth.service';
 
+// Note: when adding new resolver you must register it in app.modules as provider and add it in routes.ts
 @Injectable()
 export class MemberEditResolver implements Resolve<User> {
 
