@@ -95,13 +95,14 @@ namespace DatingApp.API.Data
                 .Include(x => x.Liker)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
-                if (likers)
-                {
-                    return user.Likee.Where(u => u.LikeeId == id);
-                } else
-                {
-                    return user.Liker.Where(u => u.LikerId == id);
-                }
+            if (likers)
+            {
+                return user.Likee.Where(u => u.LikeeId == id);
+            }
+            else
+            {
+                return user.Liker.Where(u => u.LikerId == id);
+            }
         }
 
         public async Task<bool> SaveAll()
@@ -114,9 +115,28 @@ namespace DatingApp.API.Data
             return await _context.Messages.FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public Task<PagedList<Message>> GetMessagesForUser()
+        public Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
         {
-            throw new System.NotImplementedException();
+            var messages = _context.Messages
+                .Include(u => u.Sender).ThenInclude(p => p.Photos)
+                .Include(u => u.Recipient).ThenInclude(p => p.Photos)
+                .AsQueryable();
+
+            switch (messageParams.MessageContainer)
+            {
+                case "Inbox":
+                    messages = messages.Where(u => u.RecipientId == messageParams.UserId);
+                    break;
+                case "Outbox":
+                    messages = messages.Where(u => u.SenderId == messageParams.UserId);
+                    break;
+                default:
+                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.IsRead == false);
+                    break;
+            }
+
+            messages = messages.OrderByDescending(d => d.MessageSent);
+            return PagedList<Message>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }
 
         public Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId)
