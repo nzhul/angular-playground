@@ -54,7 +54,7 @@ namespace DatingApp.API.Controllers
 
             var messagesFromRepo = await _repo.GetMessageThread(userId, id);
 
-            var messageThread = _mapper.Map<IEnumerable<Message>>(messagesFromRepo);
+            var messageThread = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
 
             return Ok(messageThread);
         }
@@ -86,6 +86,7 @@ namespace DatingApp.API.Controllers
             messageForCreationDto.SenderId = userId;
 
             var recipient = await _repo.GetUser(messageForCreationDto.RecipientId);
+            var sender = await _repo.GetUser(messageForCreationDto.SenderId); // we are calling this in order to get the senderPhotoUrl for autoMapper. Strange behaviour - must check later
 
             if (recipient == null)
             {
@@ -96,7 +97,7 @@ namespace DatingApp.API.Controllers
 
             _repo.Add(message);
 
-            var messageToReturn = _mapper.Map<MessageForCreationDto>(message);
+            var messageToReturn = _mapper.Map<MessageToReturnDto>(message);
 
             if (await _repo.SaveAll())
             {

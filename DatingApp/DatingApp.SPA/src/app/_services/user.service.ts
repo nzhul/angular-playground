@@ -98,6 +98,18 @@ export class UserService {
         }).catch(this.handleError);
     }
 
+    getMessageThread(id: number, recipientId: number) {
+        return this.authHttp.get(this.baseUrl + 'users/' + id + '/messages/thread/' + recipientId).map((response: Response) => {
+            return response.json();
+        }).catch(this.handleError);
+    }
+
+    sendMessage(id: number, message: Message) {
+        return this.authHttp.post(this.baseUrl + 'users/' + id + '/messages', message).map((response: Response) => {
+            return response.json();
+        }).catch(this.handleError);
+    }
+
     // this is no longer used but i will leave it for reference
     // we are now using AuthModule to send our json web token with every request.
     private jwt() {
