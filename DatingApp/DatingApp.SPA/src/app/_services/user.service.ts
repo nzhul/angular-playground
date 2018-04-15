@@ -110,6 +110,14 @@ export class UserService {
         }).catch(this.handleError);
     }
 
+    deleteMessage(id: number, userId: number) {
+        return this.authHttp.post(this.baseUrl + 'users/' + userId + '/messages/' + id, {}).catch(this.handleError);
+    }
+
+    markAsRead(userId: number, messageId: number) {
+        return this.authHttp.post(this.baseUrl + 'users/' + userId + '/messages/' + messageId + '/read', {}).subscribe();
+    }
+
     // this is no longer used but i will leave it for reference
     // we are now using AuthModule to send our json web token with every request.
     private jwt() {

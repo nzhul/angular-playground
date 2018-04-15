@@ -3,6 +3,8 @@ import { Message } from '../../_models/message';
 import { UserService } from '../../_services/user.service';
 import { AuthService } from '../../_services/auth.service';
 import { AlertifyService } from '../../_services/alertify.service';
+import * as _ from 'underscore';
+import 'rxjs/add/operator/do';
 
 @Component({
     selector: 'app-member-messages',
@@ -24,11 +26,20 @@ export class MemberMessagesComponent implements OnInit {
     }
 
     loadMessages() {
-        this.userService.getMessageThread(this.authService.decodedToken.nameid, this.userId).subscribe(messages => {
-            this.messages = messages;
-        }, error => {
-            this.alertify.error(error);
-        });
+        const currentUserId = +this.authService.decodedToken.nameid; // + is for casting to number
+        this.userService.getMessageThread(this.authService.decodedToken.nameid, this.userId)
+            .do(messages => {
+                _.each(messages, (message: Message) => {
+                    if (message.isRead === false && message.recipientId === currentUserId) {
+                        this.userService.markAsRead(currentUserId, message.id);
+                    }
+                });
+            })
+            .subscribe(messages => {
+                this.messages = messages;
+            }, error => {
+                this.alertify.error(error);
+            });
     }
 
     sendMessage() {
