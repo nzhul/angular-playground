@@ -1,0 +1,12 @@
+Building for production:
+    - Bundling
+    - Minification
+    - Tree Shaking
+    - Output Hashing
+    - AoT Compilation
+
+ng build --prod
+ng build --prod --extract-css=false 
+ng build --prod --build-optimizer=false --extract-css=false
+
+dotnet publish -o ../../DAPublish/

@@ -31,7 +31,18 @@ import { ListsResolver } from './_resolvers/lists.resolver';
 import { MessagesResolver } from './_resolvers/message.resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 import { JwtModule } from '@auth0/angular-jwt';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { JwtHttpInterceptor } from './_services/JwtHttpInterceptor';
+
+export function getAccessToken(): string {
+    return localStorage.getItem('token');
+}
+
+export const jwtConfig = {
+    tokenGetter: getAccessToken,
+    whitelistedDomains: ['localhost:5000']
+};
 
 @NgModule({
     declarations: [
@@ -64,12 +75,7 @@ import { HttpClientModule } from '@angular/common/http';
         ButtonsModule.forRoot(),
         HttpClientModule,
         JwtModule.forRoot({
-            config: {
-                tokenGetter: () => {
-                    return localStorage.getItem('token');
-                },
-                whitelistedDomains: ['localhost:5000']
-            }
+            config: jwtConfig
         })
     ],
     providers: [
@@ -83,6 +89,8 @@ import { HttpClientModule } from '@angular/common/http';
         PreventUnsavedChanges,
         ListsResolver,
         MessagesResolver,
+        ErrorInterceptorProvider,
+        { provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true },
     ],
     bootstrap: [AppComponent]
 })

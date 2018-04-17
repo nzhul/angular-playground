@@ -122,7 +122,7 @@ namespace DatingApp.API.Controllers
 
             if (await _repository.SaveAll())
             {
-                return Ok();
+                return Ok(new {}); // hack to fix angular error because it is expecting object.
             }
 
             return BadRequest("Failed to add user");
