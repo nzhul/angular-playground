@@ -3,9 +3,8 @@ import { User } from '../_models/User';
 import { Injectable } from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { AlertifyService } from '../_services/alertify.service';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/of';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 // Note: when adding new resolver you must register it in app.modules as provider and add it in routes.ts
 @Injectable()
@@ -20,10 +19,13 @@ export class ListsResolver implements Resolve<User[]> {
         private alertify: AlertifyService) { }
 
     resolve(route: ActivatedRouteSnapshot): Observable<User[]> {
-        return this.userService.getUsers(this.pageNumber, this.pageSize, null, this.likesParam).catch(error => {
-            this.alertify.error('Problem retrieving data');
-            this.router.navigate(['/members']);
-            return Observable.of(null);
-        });
+        return this.userService.getUsers(this.pageNumber, this.pageSize, null, this.likesParam)
+            .pipe(
+                catchError(error => {
+                    this.alertify.error('Problem retrieving data');
+                    this.router.navigate(['/members']);
+                    return of(null);
+                })
+            );
     }
 }
