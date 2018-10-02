@@ -15,7 +15,7 @@ namespace DatingApp.API.Controllers
     [ServiceFilter(typeof(LogUserActivity))] // in order for this to work we must add it as services.AddScoped<LogUserActivity>();
     [Authorize]
     [Route("api/[controller]")]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
         private readonly IDatingRepository _repository;
         private readonly IMapper _mapper;

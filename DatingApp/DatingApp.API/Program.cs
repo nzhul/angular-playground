@@ -16,7 +16,7 @@ namespace DatingApp.API
     {
         public static void Main(string[] args)
         {
-            var host = BuildWebHost(args);
+            var host = CreateWebHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
             {
@@ -37,6 +37,11 @@ namespace DatingApp.API
 
         }
 
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) => 
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
+
+        // Old way to do it -> should be deleted.
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()

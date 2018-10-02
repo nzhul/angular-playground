@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace DatingApp.API.Controllers
 {
     [Route("api/[controller]")]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _repository;
         private readonly IConfiguration _config;
@@ -29,10 +29,10 @@ namespace DatingApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserForRegistrationDto userForRegistrationDto)
         {
-            if (!string.IsNullOrEmpty(userForRegistrationDto.Username))if (!string.IsNullOrEmpty(userForRegistrationDto.Username))
-            {
-                userForRegistrationDto.Username = userForRegistrationDto.Username.ToLower();
-            }
+            if (!string.IsNullOrEmpty(userForRegistrationDto.Username)) if (!string.IsNullOrEmpty(userForRegistrationDto.Username))
+                {
+                    userForRegistrationDto.Username = userForRegistrationDto.Username.ToLower();
+                }
 
             if (await _repository.UserExists(userForRegistrationDto.Username))
                 ModelState.AddModelError("UserName", "Username already exists");
