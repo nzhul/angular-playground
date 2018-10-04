@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using DatingApp.API.Data;
+using DatingApp.API.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace DatingApp.API
 {
@@ -24,8 +20,8 @@ namespace DatingApp.API
 
                 try
                 {
-                    var context = services.GetRequiredService<DataContext>();
-                    Seeder.Initialize(context);
+                    var userManager = services.GetRequiredService<UserManager<User>>();
+                    Seeder.Initialize(userManager);
                 }
                 catch (System.Exception ex)
                 {
@@ -37,7 +33,7 @@ namespace DatingApp.API
 
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) => 
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
 

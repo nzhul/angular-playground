@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace DatingApp.API.Controllers
 {
     [ServiceFilter(typeof(LogUserActivity))] // in order for this to work we must add it as services.AddScoped<LogUserActivity>();
-    [Authorize]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
