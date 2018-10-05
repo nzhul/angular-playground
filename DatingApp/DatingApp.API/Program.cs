@@ -21,7 +21,8 @@ namespace DatingApp.API
                 try
                 {
                     var userManager = services.GetRequiredService<UserManager<User>>();
-                    Seeder.Initialize(userManager);
+                    var roleManager = services.GetRequiredService<RoleManager<Role>>();
+                    Seeder.Initialize(userManager, roleManager);
                 }
                 catch (System.Exception ex)
                 {

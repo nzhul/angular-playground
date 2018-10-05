@@ -66,13 +66,12 @@ namespace DatingApp.API
             services.AddCors();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper();
-            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDatingRepository, DatingRepository>();
-            services.AddMvc(options => 
+            services.AddMvc(options =>
             {
                 // This sets global [Authorize] attribute to all controllers. Use [AllowAnonymous] when you want public access
 
-                var policy = new AuthorizationPolicyBuilder() 
+                var policy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
