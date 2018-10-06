@@ -35,6 +35,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { JwtHttpInterceptor } from './_services/JwtHttpInterceptor';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './_directives/hasRole.directive';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
+import { AdminService } from './_services/admin.service';
 
 export function getAccessToken(): string {
     return localStorage.getItem('token');
@@ -60,7 +64,10 @@ export const jwtConfig = {
         PhotoEditorComponent,
         TimeAgoPipe,
         MemberMessagesComponent,
-        AdminPanelComponent
+        AdminPanelComponent,
+        HasRoleDirective,
+        UserManagementComponent,
+        PhotoManagementComponent
     ],
     imports: [
         BrowserModule,
@@ -92,6 +99,7 @@ export const jwtConfig = {
         ListsResolver,
         MessagesResolver,
         ErrorInterceptorProvider,
+        AdminService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true },
     ],
     bootstrap: [AppComponent]

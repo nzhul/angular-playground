@@ -21,7 +21,7 @@
                 <li routerLinkActive="active">
                     <a [routerLink]="['/messages']">Messages</a>
                 </li>
-                <li routerLinkActive="active">
+                <li *appHasRole="['Admin', 'Moderator']" routerLinkActive="active">
                     <a [routerLink]="['/admin']">Admin</a>
                 </li>
             </ul>
