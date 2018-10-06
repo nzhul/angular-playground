@@ -60,6 +60,14 @@ namespace DatingApp.API
                 };
             });
 
+            services.AddAuthorization(options =>
+            {
+                // those policies can be quite flexible. For example we can check for the current age of the user before allowing him to access.
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+                options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+            });
+
             services.AddDbContext<DataContext>(x => x.
                 UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                 .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.IncludeIgnoredWarning))); // this line will ignore some not relevant errors caused by pagination count function

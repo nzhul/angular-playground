@@ -34,6 +34,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { JwtHttpInterceptor } from './_services/JwtHttpInterceptor';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 
 export function getAccessToken(): string {
     return localStorage.getItem('token');
@@ -58,7 +59,8 @@ export const jwtConfig = {
         MemberEditComponent,
         PhotoEditorComponent,
         TimeAgoPipe,
-        MemberMessagesComponent
+        MemberMessagesComponent,
+        AdminPanelComponent
     ],
     imports: [
         BrowserModule,
